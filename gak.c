@@ -3,20 +3,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-// Begin copied from AURA SDK ver 02.03
-// So that we don't need the full SDK to compile
+
 typedef void* GPULightControl;
 
-typedef DWORD(WINAPI* EnumerateGPUFunc)(GPULightControl handles[], DWORD size);
-typedef DWORD(WINAPI* GetGPULedCountFunc)(GPULightControl handle);
-typedef DWORD(WINAPI* SetGPUColorFunc) (GPULightControl handle, BYTE* color, DWORD size);
-// End copied from AURA SDK ver 02.03
+DWORD WINAPI EnumerateGPU(GPULightControl handles[], DWORD size);
+DWORD WINAPI GetGPULedCount(GPULightControl handle);
+DWORD WINAPI SetGPUColor(GPULightControl handle, BYTE* color, DWORD size);
 
-static EnumerateGPUFunc EnumerateGPU;
-static GetGPULedCountFunc GetGPULedCount;
-static SetGPUColorFunc SetGPUColor;
 
-static const wchar_t kMsgReadme[] = L"GPU AURA Killer 1.00\n";
+static const wchar_t kMsgReadme[] = L"GPU AURA Killer 1.0.1\n";
 static const wchar_t kMsgAllDone[] = L"GPU AURA all turned off.\n";
 static const wchar_t kMsgPartiallyDone[] = L"GPU AURA partially turned off.\n";
 
@@ -32,17 +27,12 @@ show(const wchar_t* text) {
 int
 wmain(void) {
 	show(kMsgReadme);
-	
-	HMODULE lib = LoadLibraryW(L"AURA_SDK.dll");
-	if (!lib) ExitProcess(1);
-	
-	EnumerateGPU = (EnumerateGPUFunc)GetProcAddress(lib, "EnumerateGPU");
-	GetGPULedCount = (GetGPULedCountFunc)GetProcAddress(lib, "GetGPULedCount");
-	SetGPUColor = (SetGPUColorFunc)GetProcAddress(lib, "SetGPUColor");
-	if (!EnumerateGPU || !GetGPULedCount || !SetGPUColor) ExitProcess(2);
 
 	DWORD count = EnumerateGPU(NULL, 0);
-	if (!count) ExitProcess(3);
+	if (!count) {
+		show(L"No compatible GPU.\n");
+		ExitProcess(3);
+	}
 
 	GPULightControl* handles = HeapAlloc(GetProcessHeap(), 0, sizeof(GPULightControl) * count);
 	if (!handles) ExitProcess(4);

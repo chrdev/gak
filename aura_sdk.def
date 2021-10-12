@@ -1,0 +1,6 @@
+LIBRARY "AURA_SDK.dll"
+EXPORTS
+
+"_EnumerateGPU@8" ; AURA_SDK.dll
+"_GetGPULedCount@4" ; AURA_SDK.dll
+"_SetGPUColor@12" ; AURA_SDK.dll

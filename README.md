@@ -8,10 +8,12 @@ Simply run gak.exe, or setup a scheduled task for boot and wakeup.
 
 These 4 files, from AURA SDK, are needed to run gak.exe
 
+```
 AURA_SDK.dll
 LED_DLL_forMB.dll
 Vender.dll
 VGA_Extra.dll
+```
 
 They belong to ASUS or whoever their respective owners. For convenience' sake,
 they are included in the release pack. If this is a confirmed copyright
@@ -19,9 +21,7 @@ violation, please kindly let me know and I'll remove them from the release.
 
 ### Compiling
 
-Download and setup Pelles C.
-
-Run "Pelles C Command Prompt" (x86) and run build.cmd.
+Use Pelles C Command Prompt (x86) and run build.cmd.
 
 ### License 0BSD
 
